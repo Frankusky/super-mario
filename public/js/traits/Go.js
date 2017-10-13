@@ -19,23 +19,16 @@ export default class Go extends Trait {
     }
 
     update(entity, deltaTime) {
-        const drag = this.resistance * entity.vel.x * Math.abs(entity.vel.x);
-
-        entity.vel.x += this.acceleration * deltaTime * this.dir;
-        entity.vel.x += -drag;
-
-        if (entity.vel.x > this.speedLimit) {
-            entity.vel.x = this.speedLimit;
-        } else if (entity.vel.x < -this.speedLimit) {
-            entity.vel.x = -this.speedLimit;
-        }
-
         if (this.dir) {
+            entity.vel.x += this.acceleration * deltaTime * this.dir;
             this.heading = this.dir;
             this.distance += Math.abs(entity.vel.x) * deltaTime;
         } else {
             entity.vel.x -= this.deceleration * deltaTime * (entity.vel.x > 0 ? 1 : -1);
             this.distance = 0;
         }
+
+        const drag = this.resistance * entity.vel.x * Math.abs(entity.vel.x);
+        entity.vel.x += -drag;
     }
 }
