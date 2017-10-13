@@ -11,6 +11,7 @@ export default class Go extends Trait {
 
         this.dir = 0;
         this.acceleration = 600;
+        this.deceleration = 200;
         this.resistance = 1/5000;
 
         this.distance = 0;
@@ -33,6 +34,7 @@ export default class Go extends Trait {
             this.heading = this.dir;
             this.distance += Math.abs(entity.vel.x) * deltaTime;
         } else {
+            entity.vel.x -= this.deceleration * deltaTime * (entity.vel.x > 0 ? 1 : -1);
             this.distance = 0;
         }
     }
