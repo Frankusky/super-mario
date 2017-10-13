@@ -23,7 +23,6 @@ export default class Go extends Trait {
         if (this.dir) {
             entity.vel.x += this.acceleration * deltaTime * this.dir;
             this.heading = this.dir;
-            this.distance += Math.abs(entity.vel.x) * deltaTime;
         } else {
             if (Math.abs(entity.vel.x) < this.stopThreshold) {
                 this.distance = 0;
@@ -35,5 +34,7 @@ export default class Go extends Trait {
 
         const drag = this.resistance * entity.vel.x * Math.abs(entity.vel.x);
         entity.vel.x += -drag;
+
+        this.distance += Math.abs(entity.vel.x) * deltaTime;
     }
 }
