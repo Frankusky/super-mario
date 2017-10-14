@@ -21,8 +21,11 @@ export default class Go extends Trait {
 
     update(entity, deltaTime) {
         if (this.dir) {
+            if (entity.jump && entity.jump.stability > 1) {
+                this.heading = this.dir;
+            }
+
             entity.vel.x += this.acceleration * deltaTime * this.dir;
-            this.heading = this.dir;
         } else {
             if (Math.abs(entity.vel.x) < this.stopThreshold) {
                 this.distance = 0;
