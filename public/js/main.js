@@ -16,9 +16,10 @@ Promise.all([
     const camera = new Camera();
     window.camera = camera;
 
-    /*level.comp.layers.push(
+    level.comp.layers.push(
         createCollisionLayer(level),
-        createCameraLayer(camera));*/
+        //createCameraLayer(camera)
+    );
 
     const mario = entityFactory.mario();
     mario.pos.set(64, 64);
