@@ -5,6 +5,27 @@ import {loadSpriteSheet} from './loaders.js';
 import {createAnim} from './anim.js';
 
 function createMarioFactory(sprite) {
+    const runAnim = createAnim(['run-1', 'run-2', 'run-3'], 10);
+
+    function routeFrame(mario) {
+        if (mario.jump.stability === 0) {
+            return 'jump';
+        }
+
+        if (mario.go.distance > 0) {
+            if (
+                (mario.vel.x > 0 && mario.go.dir < 0) ||
+                (mario.vel.x < 0 && mario.go.dir > 0)
+            ) {
+                return 'break';
+            }
+
+            return runAnim(mario.go.distance);
+        }
+
+        return 'idle';
+    }
+
     return function createMario() {
         const mario = new Entity();
         mario.size.set(14, 16);
@@ -12,28 +33,8 @@ function createMarioFactory(sprite) {
         mario.addTrait(new Go());
         mario.addTrait(new Jump());
 
-        const runAnim = createAnim(['run-1', 'run-2', 'run-3'], 10);
-        function routeFrame(mario) {
-            if (mario.jump.stability === 0) {
-                return 'jump';
-            }
-
-            if (mario.go.distance > 0) {
-                if (
-                    (mario.vel.x > 0 && mario.go.dir < 0) ||
-                    (mario.vel.x < 0 && mario.go.dir > 0)
-                ) {
-                    return 'break';
-                }
-
-                return runAnim(mario.go.distance);
-            }
-
-            return 'idle';
-        }
-
         mario.draw = function drawMario(context) {
-            sprite.draw(pickFrame(this), context, 0, 0, mario.go.heading < 0);
+            sprite.draw(routeFrame(this), context, 0, 0, mario.go.heading < 0);
         }
 
         return mario;
