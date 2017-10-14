@@ -45,7 +45,5 @@ function createMarioFactory(sprite) {
 
 export function loadMario() {
     return loadSpriteSheet('mario')
-    .then(sprite => {
-        return createMarioFactory(sprite);
-    });
+    .then(createMarioFactory);
 }
