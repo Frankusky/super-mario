@@ -23,6 +23,9 @@ export default class Jump extends Trait {
 
     update(entity, deltaTime) {
         if (entity.vel.y === 0) {
+            if (this.engageTime > 0) {
+                this.cancel();
+            }
             this.stability++;
         } else {
             this.stability = 0;
