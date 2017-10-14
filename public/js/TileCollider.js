@@ -6,50 +6,52 @@ export default class TileCollider {
     }
 
     checkX(entity) {
+        const {bounds, vel} = entity;
         let x;
-        if (entity.vel.x > 0) {
-            x = entity.bounds.right;
-        } else if (entity.vel.x < 0) {
-            x = entity.bounds.left;
+        if (vel.x > 0) {
+            x = bounds.right;
+        } else if (vel.x < 0) {
+            x = bounds.left;
         } else {
             return;
         }
 
         const matches = this.tiles.searchByRange(
             x, x,
-            entity.bounds.top, entity.bounds.bottom);
+            bounds.top, bounds.bottom);
 
         matches.forEach(match => {
             if (match.tile.type !== 'ground') {
                 return;
             }
 
-            if (entity.vel.x > 0) {
-                if (entity.bounds.right > match.x1) {
-                    entity.bounds.right = match.x1;
-                    entity.vel.x = 0;
+            if (vel.x > 0) {
+                if (bounds.right > match.x1) {
+                    bounds.right = match.x1;
+                    vel.x = 0;
                 }
-            } else if (entity.vel.x < 0) {
-                if (entity.bounds.left < match.x2) {
-                    entity.bounds.left = match.x2;
-                    entity.vel.x = 0;
+            } else if (vel.x < 0) {
+                if (bounds.left < match.x2) {
+                    bounds.left = match.x2;
+                    vel.x = 0;
                 }
             }
         });
     }
 
     checkY(entity) {
+        const {bounds, vel} = entity;
         let y;
-        if (entity.vel.y > 0) {
-            y = entity.bounds.bottom;
-        } else if (entity.vel.y < 0) {
-            y = entity.bounds.top;
+        if (vel.y > 0) {
+            y = bounds.bottom;
+        } else if (vel.y < 0) {
+            y = bounds.top;
         } else {
             return;
         }
 
         const matches = this.tiles.searchByRange(
-            entity.bounds.left, entity.bounds.right,
+            bounds.left, bounds.right,
             y, y);
 
         matches.forEach(match => {
@@ -57,15 +59,15 @@ export default class TileCollider {
                 return;
             }
 
-            if (entity.vel.y > 0) {
-                if (entity.bounds.bottom > match.y1) {
-                    entity.bounds.bottom = match.y1;
-                    entity.vel.y = 0;
+            if (vel.y > 0) {
+                if (bounds.bottom > match.y1) {
+                    bounds.bottom = match.y1;
+                    vel.y = 0;
                 }
-            } else if (entity.vel.y < 0) {
-                if (entity.bounds.top < match.y2) {
-                    entity.bounds.top = match.y2;
-                    entity.vel.y = 0;
+            } else if (vel.y < 0) {
+                if (bounds.top < match.y2) {
+                    bounds.top = match.y2;
+                    vel.y = 0;
                 }
             }
         });
