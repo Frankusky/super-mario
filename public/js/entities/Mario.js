@@ -1,7 +1,7 @@
-import Entity from './Entity.js';
-import Go from './traits/Go.js';
-import Jump from './traits/Jump.js';
-import {loadSpriteSheet} from './loaders.js';
+import Entity from '../Entity.js';
+import Go from '../traits/Go.js';
+import Jump from '../traits/Jump.js';
+import {loadSpriteSheet} from '../loaders.js';
 import {createAnim} from './anim.js';
 
 function createMarioFactory(sprite) {
@@ -43,7 +43,7 @@ function createMarioFactory(sprite) {
     };
 }
 
-export function loadMario() {
+export default function setup() {
     return loadSpriteSheet('mario')
     .then(createMarioFactory);
 }
