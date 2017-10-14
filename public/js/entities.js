@@ -26,6 +26,10 @@ function createMarioFactory(sprite) {
         return 'idle';
     }
 
+    function drawMario(context) {
+        sprite.draw(routeFrame(this), context, 0, 0, this.go.heading < 0);
+    }
+
     return function createMario() {
         const mario = new Entity();
         mario.size.set(14, 16);
@@ -33,9 +37,7 @@ function createMarioFactory(sprite) {
         mario.addTrait(new Go());
         mario.addTrait(new Jump());
 
-        mario.draw = function drawMario(context) {
-            sprite.draw(routeFrame(this), context, 0, 0, mario.go.heading < 0);
-        }
+        mario.draw = drawMario;
 
         return mario;
     };
