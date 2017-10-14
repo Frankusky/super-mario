@@ -20,30 +20,23 @@ Promise.all([
         createCollisionLayer(level),
         createCameraLayer(camera));*/
 
-    const marios = [];
-    for (let i = 0; i < 3; i++) {
-        const mario = entityFactory.mario();
-        mario.pos.set(64 + i * 20, 64);
+    const mario = entityFactory.mario();
+    mario.pos.set(64, 64);
+    level.entities.add(mario);
 
-        level.entities.add(mario);
-
-        const input = setupKeyboard(mario);
-        input.listenTo(window);
-
-        marios.push(mario);
-    }
+    const input = setupKeyboard(mario);
+    input.listenTo(window);
 
     const goomba = entityFactory.goomba();
     goomba.pos.x = 220;
     level.entities.add(goomba);
 
-
     const timer = new Timer(1/60);
     timer.update = function update(deltaTime) {
         level.update(deltaTime);
 
-        if (marios[0].pos.x > 100) {
-            camera.pos.x = marios[0].pos.x - 100;
+        if (mario.pos.x > 100) {
+            camera.pos.x = mario.pos.x - 100;
         }
 
         level.comp.draw(context, camera);
