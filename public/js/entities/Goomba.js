@@ -1,12 +1,12 @@
 import Entity from '../Entity.js';
+import {createAnim} from '../anim.js';
 import {loadSpriteSheet} from '../loaders.js';
 
 function createGoombaFactory(sprite) {
-    const frames = ['walk-1', 'walk-2'];
-    const frameLength = 0.15;
+    const walkAnim = createAnim(['walk-1', 'walk-2'], 0.15);
+
     function pickFrame(goomba) {
-        const frameIndex = Math.floor(goomba.lifetime / frameLength) % frames.length;
-        return frames[frameIndex];
+        return walkAnim(goomba.lifetime);
     }
 
     function drawGoomba(context) {
