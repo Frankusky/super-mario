@@ -16,26 +16,29 @@ Promise.all([
     const camera = new Camera();
     window.camera = camera;
 
-    const mario = createMario();
-    mario.pos.set(64, 64);
-
     /*level.comp.layers.push(
         createCollisionLayer(level),
         createCameraLayer(camera));*/
 
+    const marios = [];
+    for (let i = 0; i < 3; i++) {
+        const mario = createMario();
+        mario.pos.set(64 + i * 20, 64);
 
-    level.entities.add(mario);
+        level.entities.add(mario);
 
-    const input = setupKeyboard(mario);
-    input.listenTo(window);
+        const input = setupKeyboard(mario);
+        input.listenTo(window);
 
+        marios.push(mario);
+    }
 
     const timer = new Timer(1/60);
     timer.update = function update(deltaTime) {
         level.update(deltaTime);
 
-        if (mario.pos.x > 100) {
-            camera.pos.x = mario.pos.x - 100;
+        if (marios[0].pos.x > 100) {
+            camera.pos.x = marios[0].pos.x - 100;
         }
 
         level.comp.draw(context, camera);
