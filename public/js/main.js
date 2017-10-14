@@ -1,8 +1,7 @@
 import Camera from './Camera.js';
 import Timer from './Timer.js';
 import {loadLevel} from './loaders.js';
-import loadMario from './entities/Mario.js';
-import loadGoomba from './entities/Goomba.js';
+import {loadEntities} from './entities.js';
 import {createCollisionLayer, createCameraLayer} from './layers.js';
 import {setupKeyboard} from './input.js';
 
@@ -10,11 +9,10 @@ const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
 
 Promise.all([
-    loadMario(),
-    loadGoomba(),
+    loadEntities(),
     loadLevel('1-1'),
 ])
-.then(([createMario, createGoomba, level]) => {
+.then(([entityFactory, level]) => {
     const camera = new Camera();
     window.camera = camera;
 
@@ -24,7 +22,7 @@ Promise.all([
 
     const marios = [];
     for (let i = 0; i < 3; i++) {
-        const mario = createMario();
+        const mario = entityFactory.mario();
         mario.pos.set(64 + i * 20, 64);
 
         level.entities.add(mario);
@@ -35,7 +33,7 @@ Promise.all([
         marios.push(mario);
     }
 
-    const goomba = createGoomba();
+    const goomba = entityFactory.goomba();
     goomba.pos.x = 220;
     level.entities.add(goomba);
 
