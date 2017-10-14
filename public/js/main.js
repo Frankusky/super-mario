@@ -1,7 +1,7 @@
 import Camera from './Camera.js';
 import Timer from './Timer.js';
 import {loadLevel} from './loaders.js';
-import {createMario} from './entities.js';
+import {createMarioFactory} from './entities.js';
 import {createCollisionLayer, createCameraLayer} from './layers.js';
 import {setupKeyboard} from './input.js';
 
@@ -9,13 +9,14 @@ const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
 
 Promise.all([
-    createMario(),
+    createMarioFactory(),
     loadLevel('1-1'),
 ])
-.then(([mario, level]) => {
+.then(([createMario, level]) => {
     const camera = new Camera();
     window.camera = camera;
 
+    const mario = createMario();
     mario.pos.set(64, 64);
 
     /*level.comp.layers.push(
