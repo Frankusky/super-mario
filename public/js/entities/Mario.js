@@ -41,8 +41,10 @@ function createMarioFactory(sprite) {
         mario.addTrait(new Go());
         mario.addTrait(new Jump());
 
-        mario.turbo = function setTurboState(turboOn) {
-            this.go.dragFactor = turboOn ? FAST_DRAG : SLOW_DRAG;
+        mario.turbo = (turboOn) => {
+            this.go.dragFactor = turboOn
+                ? FAST_DRAG
+                : SLOW_DRAG;
         }
 
         mario.draw = drawMario;
